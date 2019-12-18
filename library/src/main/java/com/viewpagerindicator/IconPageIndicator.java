@@ -28,6 +28,8 @@ import android.widget.ImageView;
 
 import com.viewpagerindicator.library.R;
 
+import java.util.Objects;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -129,6 +131,7 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
     public void notifyDataSetChanged() {
         mIconsLayout.removeAllViews();
         IconPagerAdapter iconAdapter = (IconPagerAdapter) mViewPager.getAdapter();
+        if(iconAdapter == null) return;
         int count = iconAdapter.getCount();
         for (int i = 0; i < count; i++) {
             ImageView view = new ImageView(getContext(), null, R.attr.vpiIconPageIndicatorStyle);

@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import com.viewpagerindicator.library.R;
 
+import java.util.Objects;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -195,7 +197,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             return;
         }
         if (mViewPager != null) {
-            mViewPager.removeOnPageChangeListener(null);
+            mViewPager.removeOnPageChangeListener(this);
         }
         final PagerAdapter adapter = view.getAdapter();
         if (adapter == null) {
@@ -210,6 +212,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         mTabLayout.removeAllViews();
         PagerAdapter adapter = mViewPager.getAdapter();
         IconPagerAdapter iconAdapter = null;
+        if(adapter == null) return;
         if (adapter instanceof IconPagerAdapter) {
             iconAdapter = (IconPagerAdapter)adapter;
         }

@@ -34,6 +34,8 @@ import android.view.ViewConfiguration;
 
 import com.viewpagerindicator.library.R;
 
+import java.util.Objects;
+
 /**
  * Draws a line for each page. The current page line is colored differently
  * than the unselected page lines.
@@ -163,7 +165,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mViewPager == null) {
+        if (mViewPager == null || mViewPager.getAdapter() == null) {
             return;
         }
         final int count = mViewPager.getAdapter().getCount();
@@ -189,7 +191,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         if (super.onTouchEvent(ev)) {
             return true;
         }
-        if ((mViewPager == null) || (mViewPager.getAdapter().getCount() == 0)) {
+        if (mViewPager == null || mViewPager.getAdapter() == null|| (mViewPager.getAdapter().getCount() == 0)) {
             return false;
         }
 
@@ -275,7 +277,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         }
         if (mViewPager != null) {
             //Clear us from the old pager.
-            mViewPager.removeOnPageChangeListener(null);
+            mViewPager.removeOnPageChangeListener(this);
         }
         if (viewPager.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");

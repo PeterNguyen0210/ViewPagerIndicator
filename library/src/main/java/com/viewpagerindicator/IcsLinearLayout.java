@@ -117,7 +117,7 @@ public class IcsLinearLayout extends LinearLayout {
 
         if (hasDividerBeforeChildAt(count)) {
             final View child = getChildAt(count - 1);
-            int bottom = 0;
+            int bottom;
             if (child == null) {
                 bottom = getHeight() - getPaddingBottom() - mDividerHeight;
             } else {
@@ -144,7 +144,7 @@ public class IcsLinearLayout extends LinearLayout {
 
         if (hasDividerBeforeChildAt(count)) {
             final View child = getChildAt(count - 1);
-            int right = 0;
+            int right;
             if (child == null) {
                 right = getWidth() - getPaddingRight() - mDividerWidth;
             } else {

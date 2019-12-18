@@ -32,6 +32,8 @@ import android.os.Parcelable;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewConfigurationCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,6 +42,7 @@ import android.view.ViewConfiguration;
 import com.viewpagerindicator.library.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A TitlePageIndicator is a PageIndicator which displays the title of left view
@@ -361,7 +364,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mViewPager == null) {
+        if (mViewPager == null || mViewPager.getAdapter() == null) {
             return;
         }
         final int count = mViewPager.getAdapter().getCount();
@@ -552,7 +555,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         if (super.onTouchEvent(ev)) {
             return true;
         }
-        if ((mViewPager == null) || (mViewPager.getAdapter().getCount() == 0)) {
+        if (mViewPager == null || mViewPager.getAdapter() == null || mViewPager.getAdapter().getCount() == 0) {
             return false;
         }
 
@@ -678,6 +681,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
     private ArrayList<Rect> calculateAllBounds(Paint paint) {
         ArrayList<Rect> list = new ArrayList<Rect>();
         //For each views (If no values then add a fake one)
+        if(mViewPager.getAdapter() == null) return list;
         final int count = mViewPager.getAdapter().getCount();
         final int width = getWidth();
         final int halfWidth = width / 2;
@@ -717,7 +721,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
             return;
         }
         if (mViewPager != null) {
-            mViewPager.removeOnPageChangeListener(null);
+            mViewPager.removeOnPageChangeListener(this);
         }
         if (view.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
@@ -868,6 +872,8 @@ public class TitlePageIndicator extends View implements PageIndicator {
     }
 
     private CharSequence getTitle(int i) {
+        if(mViewPager.getAdapter() == null)
+            return "";
         CharSequence title = mViewPager.getAdapter().getPageTitle(i);
         if (title == null) {
             title = EMPTY_TITLE;

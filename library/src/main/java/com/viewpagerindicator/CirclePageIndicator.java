@@ -37,6 +37,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.viewpagerindicator.library.R;
 
+import java.util.Objects;
+
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
@@ -206,7 +208,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mViewPager == null) {
+        if (mViewPager == null || mViewPager.getAdapter() == null) {
             return;
         }
         final int count = mViewPager.getAdapter().getCount();
@@ -290,7 +292,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         if (super.onTouchEvent(ev)) {
             return true;
         }
-        if ((mViewPager == null) || (mViewPager.getAdapter().getCount() == 0)) {
+        if (mViewPager == null || mViewPager.getAdapter() == null|| mViewPager.getAdapter().getCount() == 0) {
             return false;
         }
 
@@ -470,7 +472,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
 
-        if ((specMode == MeasureSpec.EXACTLY) || (mViewPager == null)) {
+        if (specMode == MeasureSpec.EXACTLY || mViewPager == null || mViewPager.getAdapter() == null) {
             //We were told how big to be
             result = specSize;
         } else {
